@@ -7,19 +7,49 @@ Page {
     id: page
     anchors.fill: parent
     property bool playing: player.playbackState == MediaPlayer.PlayingState
+    property bool error
 
     MusicLibrary {
         id: musicLibrary
+
+        onCurrentSongChanged: {
+            player.jumpToNext = false
+            player.source = currentSong
+        }
+
+        Component.onCompleted: player.source = currentSong
     }
 
     MediaPlayer {
         id: player
         autoLoad: true
         autoPlay: true
-        source: musicLibrary.currentSong
 
-        onStopped: musicLibrary.next()
+        property bool jumpToNext: true
 
+        onStopped: {
+            // Since changing source will send stop
+            // we need to guard changing song again to avoid binding loop
+            if (jumpToNext) {
+                // In case where playback ended we play next song
+                musicLibrary.next()
+            }
+            jumpToNext = true
+        }
+
+        onPlaying: {
+            page.error = false
+        }
+
+        onError: {
+            console.log("Failed to play" + source)
+            if (!page.error) {
+                page.error = true
+                musicLibrary.next()
+            } else {
+                console.log("Stopped since two errors")
+            }
+        }
 
     }
 
