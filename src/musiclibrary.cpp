@@ -2,6 +2,8 @@
 #include <QString>
 #include <QtSparql>
 #include <QDebug>
+#include <QUrl>
+#include <QUrlQuery>
 
 MusicLibrary::MusicLibrary(QObject *parent) :
     QObject(parent)
@@ -54,4 +56,11 @@ void MusicLibrary::skip() {
 void MusicLibrary::next() {
     emit currentSongChanged();
     emit nextSongChanged();
+}
+
+
+QString MusicLibrary::pretifyUrl(QUrl url) {
+    QFileInfo info(url.toString(QUrl::FormattingOptions(QUrl::PreferLocalFile)));
+    return info.baseName();
+
 }

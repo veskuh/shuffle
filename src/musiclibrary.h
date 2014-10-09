@@ -16,9 +16,11 @@ public:
     explicit MusicLibrary(QObject *parent = 0);
     Q_INVOKABLE void skip();
     Q_INVOKABLE void next();
+    Q_INVOKABLE QString pretifyUrl(QUrl url);
 
     QString nextSong() const;
     QString currentSong() const;
+
 
 signals:
     void nextSongChanged();
