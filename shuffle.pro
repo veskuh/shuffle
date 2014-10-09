@@ -12,9 +12,11 @@
 # The name of your application
 TARGET = shuffle
 
-CONFIG += sailfishapp
+CONFIG += sailfishapp \
+           qtsparql
 
-SOURCES += src/shuffle.cpp
+SOURCES += src/shuffle.cpp \
+    src/musiclibrary.cpp
 
 OTHER_FILES += qml/shuffle.qml \
     qml/cover/CoverPage.qml \
@@ -29,4 +31,7 @@ OTHER_FILES += qml/shuffle.qml \
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/shuffle-de.ts
+
+HEADERS += \
+    src/musiclibrary.h
 
