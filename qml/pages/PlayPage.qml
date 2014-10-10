@@ -1,57 +1,9 @@
 import QtQuick 2.1
 import Sailfish.Silica 1.0
 import QtMultimedia 5.0
-import harbour.shuffle.MusicLibrary 1.0
 
 Page {
     id: page
-    anchors.fill: parent
-    property bool playing: player.playbackState == MediaPlayer.PlayingState
-    property bool error
-
-    MusicLibrary {
-        id: musicLibrary
-
-        onCurrentSongChanged: {
-            player.jumpToNext = false
-            player.source = currentSong
-        }
-
-        Component.onCompleted: player.source = currentSong
-    }
-
-    MediaPlayer {
-        id: player
-        autoLoad: true
-        autoPlay: true
-
-        property bool jumpToNext: true
-
-        onStopped: {
-            // Since changing source will send stop
-            // we need to guard changing song again to avoid binding loop
-            if (jumpToNext) {
-                // In case where playback ended we play next song
-                musicLibrary.next()
-            }
-            jumpToNext = true
-        }
-
-        onPlaying: {
-            page.error = false
-        }
-
-        onError: {
-            console.log("Failed to play" + source)
-            if (!page.error) {
-                page.error = true
-                musicLibrary.next()
-            } else {
-                console.log("Stopped since two errors")
-            }
-        }
-
-    }
 
     SilicaFlickable {
         anchors.fill: parent
@@ -67,9 +19,9 @@ Page {
                 text: "About"
             }
             MenuItem {
-                text: page.playing? "Pause" : "Play"
+                text: app.playing? "Pause" : "Play"
                 onClicked: {
-                    if (page.playing) player.pause()
+                    if (app.playing) player.pause()
                     else player.play()
                 }
             }
@@ -83,10 +35,7 @@ Page {
 
         Item {
             id: coverArea
-            anchors {
-                top: header.bottom
-                left: parent.left
-            }
+            anchors.top: header.bottom
             width: parent.width
             height: page.height/3
 
@@ -131,11 +80,8 @@ Page {
 
         ShaderEffect {
             id: reflectionEffect
-            anchors {
-                top: coverArea.bottom
-                left: parent.left
-                right: parent.right
-            }
+            anchors.top: coverArea.bottom
+            width: page.width
             height: coverArea.height / 2
 
             property variant source: ShaderEffectSource {
@@ -167,7 +113,6 @@ Page {
             color: "black"
             anchors.top: reflectionEffect.bottom
             anchors.bottom: tools.top
-            anchors.left: parent.left
             width: parent.width
 
             Column {
@@ -205,19 +150,15 @@ Page {
         Rectangle {
             id: tools
             height: Theme.itemSizeMedium * 2
-
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: parent.width
             anchors.bottom: parent.bottom
             color: "black"
 
             Column {
                 height:children.height
-                anchors.left: parent.left
 
                 Slider {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    height: Theme.itemSizeMedium
                     width: page.width
                     handleVisible: false
                     minimumValue: 0
@@ -230,14 +171,10 @@ Page {
                     height: Theme.itemSizeMedium
                     spacing: Theme.paddingLarge
 
-                    /* There is no going back!
                     IconButton {
-                        icon.source: "image://Theme/icon-m-previous"
-                    }*/
-                    IconButton {
-                        icon.source: !page.playing ? "image://Theme/icon-m-play" : "image://Theme/icon-m-pause"
+                        icon.source: !app.playing ? "image://Theme/icon-m-play" : "image://Theme/icon-m-pause"
                         onClicked: {
-                            if (page.playing) player.pause()
+                            if (app.playing) player.pause()
                             else player.play()
                         }
                     }
@@ -245,7 +182,6 @@ Page {
                         icon.source: "image://Theme/icon-m-next"
                         onClicked: musicLibrary.skip()
                     }
-
                 }
             }
         }
