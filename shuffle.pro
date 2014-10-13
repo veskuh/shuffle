@@ -1,22 +1,14 @@
-# NOTICE:
-#
-# Application name defined in TARGET has a corresponding QML filename.
-# If name defined in TARGET is changed, the following needs to be done
-# to match new name:
-#   - corresponding QML filename must be changed
-#   - desktop icon filename must be changed
-#   - desktop filename must be changed
-#   - icon definition filename in desktop file must be changed
-#   - translation filenames have to be changed
-
-# The name of your application
 TARGET = shuffle
 
-CONFIG += sailfishapp \
-           qtsparql
+CONFIG += qtsparql \
+          link_pkgconfig
+
+CONFIG += sailfishapp
+PKGCONFIG += libmediaart-1.0
 
 SOURCES += src/shuffle.cpp \
-    src/musiclibrary.cpp
+    src/musiclibrary.cpp \
+    src/coverart.cpp
 
 OTHER_FILES += qml/shuffle.qml \
     qml/cover/CoverPage.qml \
@@ -33,5 +25,6 @@ CONFIG += sailfishapp_i18n
 TRANSLATIONS += translations/shuffle-de.ts
 
 HEADERS += \
-    src/musiclibrary.h
+    src/musiclibrary.h \
+    src/coverart.h
 

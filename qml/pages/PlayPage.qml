@@ -58,6 +58,18 @@ Page {
             width: parent.width
             height: page.height/3
 
+            property SongCover current: toka
+
+            function next() {
+                if (coverArea.current == toka) {
+                    coverArea.current = kolmas
+                } else if (coverArea.current == eka) {
+                    coverArea.current = toka
+                } else {
+                    coverArea.current = eka
+                }
+            }
+
             Item {
                 id: dragTarget
                 x:75
@@ -70,29 +82,33 @@ Page {
                 viewCenter: parent.width / 2
                 // color: "red"
                 centerX: dragTarget.x %480
-                imageSource: "image://Theme/icon-l-music"
             }
 
             SongCover {
                 id: toka
                 dragTarget: dragTarget
-
+                imageSource: musicLibrary.cover
                 initialY: 20
                 viewCenter: parent.width / 2
                 //  color: "green"
                 centerX: (eka.centerX + 240-75)%480
-                imageSource: "image://Theme/icon-l-music"
-
             }
             SongCover {
+                id: kolmas
                 initialY: 20
                 dragTarget: dragTarget
 
                 viewCenter: parent.width / 2
                 //   color: "blue"
                 centerX: (toka.centerX + 240-75)%480
+            }
 
-                imageSource: "image://Theme/icon-l-music"
+            Connections {
+                target: player
+                onSourceChanged: {
+                    coverArea.current.title = musicLibrary.pretifyUrl(player.source)
+                    coverArea.next()
+                }
 
             }
         }

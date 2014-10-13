@@ -29,17 +29,20 @@ Item {
     property int distance: (viewCenter - Math.abs((centerX) - viewCenter))
     property Item dragTarget
 
-    property alias imageSource: image.source
+    property string title
+    property string artist
+
+    property string imageSource
 
     Image {
         id:image
-        source:""
+        source: imageSource != "" ? imageSource : "image://Theme/icon-l-music"
         anchors.fill: parent
         visible: source !== ""
         fillMode: Image.PreserveAspectCrop
         smooth: true
         clip: true
-        opacity: cover.opacity
+        opacity: imageSource == "" ? 0.3 : 1.0
     }
 
     opacity: (distance / viewCenter) * 0.9 + 0.1
@@ -47,6 +50,23 @@ Item {
     height:width
     y: initialY + distance / 2
     x: centerX - width / 2
+
+
+    Label {
+        x: Theme.paddingMedium
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Theme.paddingMedium
+
+        text: title
+        width: cover.width - Theme.paddingMedium * 2
+        truncationMode: TruncationMode.Elide
+        font.pixelSize: Theme.fontSizeTiny
+
+        maximumLineCount: 3
+        wrapMode: Text.Wrap
+
+    }
+
 
     MouseArea {
         id: mousearea

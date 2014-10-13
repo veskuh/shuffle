@@ -27,6 +27,7 @@ PkgConfigBR:
   - Qt5Quick
   - Qt5Sparql
   - Qt5Multimedia
+  - libmediaart-1.0
 
 # Build dependencies without a pkgconfig setup can be listed here
 # PkgBR:
