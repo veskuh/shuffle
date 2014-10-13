@@ -47,7 +47,7 @@ Page {
             MenuItem {
                 text: "Next"
                 onClicked: {
-                    musicLibrary.skip()
+                    musicLibrary.next()
                 }
             }
         }
@@ -87,7 +87,6 @@ Page {
             SongCover {
                 id: toka
                 dragTarget: dragTarget
-                imageSource: musicLibrary.cover
                 initialY: 20
                 viewCenter: parent.width / 2
                 //  color: "green"
@@ -108,6 +107,7 @@ Page {
                 onSourceChanged: {
                     coverArea.current.title = musicLibrary.pretifyUrl(player.source)
                     coverArea.next()
+                    coverArea.current.imageSource = musicLibrary.cover
                 }
 
             }
@@ -215,7 +215,7 @@ Page {
                     }
                     IconButton {
                         icon.source: "image://Theme/icon-m-next"
-                        onClicked: musicLibrary.skip()
+                        onClicked: musicLibrary.next()
                     }
                 }
             }

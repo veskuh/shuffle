@@ -33,12 +33,31 @@ ApplicationWindow
     MusicLibrary {
         id: musicLibrary
 
+        property string previousTrack
+        property string currentTrack
+        property string nextTrack
+
         onCurrentSongChanged: {
-            player.jumpToNext = false
-            player.source = currentSong
+            if (nextTrack == "") {
+                player.jumpToNext = false
+                nextTrack = currentSong
+            } else {
+                player.jumpToNext = false
+                previousTrack = currentTrack
+                currentTrack = nextTrack
+                nextTrack = currentSong
+            }
         }
 
-        Component.onCompleted: player.source = currentSong
+        onCurrentTrackChanged: {
+            player.source = currentTrack
+        }
+
+        Component.onCompleted: {
+            next()
+            next()
+        }
+
     }
 
     MediaPlayer {
