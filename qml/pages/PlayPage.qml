@@ -34,9 +34,10 @@ Page {
         }
 
         PullDownMenu {
+            /* TODO
             MenuItem {
                 text: "About"
-            }
+            }*/
             MenuItem {
                 text: app.playing? "Pause" : "Play"
                 onClicked: {

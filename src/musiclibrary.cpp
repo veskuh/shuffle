@@ -38,13 +38,13 @@ QString MusicLibrary::currentSong() {
 
 QString MusicLibrary::cover() {
     m_cover = CoverArt::getCover(m_artist, m_album, m_url);
-    qDebug() << "Artist: " << m_artist << " Album: " << m_album;
+/*    qDebug() << "Artist: " << m_artist << " Album: " << m_album;
     qDebug() << "URL: " << m_url;
-    qDebug() << "Art: "<< m_cover;
+    qDebug() << "Art: "<< m_cover; */
 
     QFile f(m_cover);
     if (!f.exists()) {
-        qDebug() << "Cover does not exist";
+        // qDebug() << "Cover does not exist";
         m_cover.clear();
     }
     return m_cover;
@@ -67,7 +67,7 @@ void MusicLibrary::next() {
     QScopedPointer<QSparqlResult> result(connection->exec(countQuery, execOptions));
     result->next();
     int count = result->value(0).toInt();
-    qDebug() << "Result count: " << count;
+    // qDebug() << "Result count: " << count;
     if (count < 1) {
         qDebug() << "No songs found";
         // No songs

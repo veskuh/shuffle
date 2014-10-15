@@ -53,7 +53,7 @@ CoverBackground {
 
         CoverAction {
             iconSource: "image://Theme/icon-cover-next-song"
-            onTriggered: musicLibrary.skip()
+            onTriggered: musicLibrary.next()
         }
     }
 }

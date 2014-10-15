@@ -30,8 +30,8 @@ Item {
 
     scale: position != 2 ? 0.5 : 1.0
     x: -width + position * (parent.width - 3 * width) / 4 + position * width
-    y: 50
-    width: 250
+    y: Theme.paddingLarge
+    width: parent.width / 2 - Theme.paddingMedium * 2
     height: width
 
     Image {
