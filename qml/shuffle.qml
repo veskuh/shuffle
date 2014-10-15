@@ -33,18 +33,21 @@ ApplicationWindow
     MusicLibrary {
         id: musicLibrary
 
-        property string previousTrack
         property string currentTrack
+        property string currentCover
         property string nextTrack
+        property string nextCover
 
         onCurrentSongChanged: {
             if (nextTrack == "") {
                 player.jumpToNext = false
+                nextCover = cover
                 nextTrack = currentSong
             } else {
                 player.jumpToNext = false
-                previousTrack = currentTrack
                 currentTrack = nextTrack
+                currentCover = nextCover
+                nextCover = cover
                 nextTrack = currentSong
             }
         }
@@ -57,7 +60,6 @@ ApplicationWindow
             next()
             next()
         }
-
     }
 
     MediaPlayer {
@@ -91,7 +93,6 @@ ApplicationWindow
                 console.log("Stopped since two errors")
             }
         }
-
     }
 }
 

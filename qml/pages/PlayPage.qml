@@ -58,58 +58,59 @@ Page {
             width: parent.width
             height: page.height/3
 
-            property SongCover current: toka
+            property SongCover old : cover1
+            property SongCover previous : cover2
+            property SongCover current : cover3
+            property SongCover next : cover4
+            property SongCover future : cover5
 
-            function next() {
-                if (coverArea.current == toka) {
-                    coverArea.current = kolmas
-                } else if (coverArea.current == eka) {
-                    coverArea.current = toka
-                } else {
-                    coverArea.current = eka
-                }
-            }
-
-            Item {
-                id: dragTarget
-                x:75
+            SongCover {
+                id: cover1
+                position : 0
             }
 
             SongCover {
-                id: eka
-                dragTarget: dragTarget
-                initialY: 20
-                viewCenter: parent.width / 2
-                // color: "red"
-                centerX: dragTarget.x %480
+                id: cover2
+                position : 1
             }
 
             SongCover {
-                id: toka
-                dragTarget: dragTarget
-                initialY: 20
-                viewCenter: parent.width / 2
-                //  color: "green"
-                centerX: (eka.centerX + 240-75)%480
+                id: cover3
+                position : 2
             }
-            SongCover {
-                id: kolmas
-                initialY: 20
-                dragTarget: dragTarget
 
-                viewCenter: parent.width / 2
-                //   color: "blue"
-                centerX: (toka.centerX + 240-75)%480
+            SongCover {
+                id: cover4
+                position : 3
             }
+
+            SongCover {
+                id: cover5
+                position : 4
+            }
+
+            // The next track info to be stored in this item
+            property int futureIndex: 4
 
             Connections {
-                target: player
-                onSourceChanged: {
-                    coverArea.current.title = musicLibrary.pretifyUrl(player.source)
-                    coverArea.next()
-                    coverArea.current.imageSource = musicLibrary.cover
+                target: musicLibrary
+                onNextTrackChanged: {
+                    var items = [coverArea.old, coverArea.previous, coverArea.current, coverArea.next, coverArea.future]
+                    items[coverArea.futureIndex].title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
+                    items[coverArea.futureIndex].imageSource = musicLibrary.nextCover
+                    for (var key in items) {
+                        var cover = items[key]
+                        cover.position = cover.position == 0 ? 4 : cover.position - 1
+                    }
+                    coverArea.futureIndex = (coverArea.futureIndex + 1 ) % 5;
                 }
+            }
 
+            Component.onCompleted: {
+                current.title = musicLibrary.pretifyUrl(musicLibrary.currentTrack)
+                current.imageSource = musicLibrary.currentCover
+                next.title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
+                next.imageSource = musicLibrary.nextCover
             }
         }
 
