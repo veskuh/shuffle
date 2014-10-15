@@ -1,6 +1,6 @@
 Name: shuffle
-Summary: Shuffle is a simple music player
-Version: 0.0.1
+Summary: Shuffle is a simple and clean music player
+Version: 0.1.0
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
@@ -12,7 +12,7 @@ License: GPLv2
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  Short description of my SailfishOS Application
+  Shuffle is a simple and clean Music player for SailfishOS
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
