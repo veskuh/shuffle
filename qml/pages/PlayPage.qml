@@ -40,16 +40,12 @@ Page {
             }*/
             MenuItem {
                 text: app.playing? "Pause" : "Play"
-                onClicked: {
-                    if (app.playing) player.pause()
-                    else player.play()
-                }
+                onClicked: app.togglePlay()
             }
+
             MenuItem {
                 text: "Next"
-                onClicked: {
-                    musicLibrary.next()
-                }
+                onClicked: musicLibrary.next()
             }
         }
 
@@ -59,11 +55,24 @@ Page {
             width: parent.width
             height: page.height/3
 
-            property SongCover old : cover1
-            property SongCover previous : cover2
-            property SongCover current : cover3
-            property SongCover next : cover4
-            property SongCover future : cover5
+            // The next track info to be stored in this item
+            property int futureIndex: 4
+
+            function setCoverDetails(coverIndex, url, coverImage) {
+                var items = [cover1, cover2, cover3, cover4, cover5]
+                items[coverIndex].title = musicLibrary.pretifyUrl(url)
+                items[coverIndex].imageSource = coverImage
+            }
+
+            function updateNextTrack() {
+                var items = [cover1, cover2, cover3, cover4, cover5]
+                setCoverDetails(coverArea.futureIndex, musicLibrary.nextTrack, musicLibrary.nextCover)
+                for (var key in items) {
+                    var cover = items[key]
+                    cover.position = cover.position == 0 ? 4 : cover.position - 1
+                }
+                coverArea.futureIndex = (coverArea.futureIndex + 1 ) % 5;
+            }
 
             SongCover {
                 id: cover1
@@ -90,28 +99,14 @@ Page {
                 position : 4
             }
 
-            // The next track info to be stored in this item
-            property int futureIndex: 4
-
             Connections {
                 target: musicLibrary
-                onNextTrackChanged: {
-                    var items = [coverArea.old, coverArea.previous, coverArea.current, coverArea.next, coverArea.future]
-                    items[coverArea.futureIndex].title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
-                    items[coverArea.futureIndex].imageSource = musicLibrary.nextCover
-                    for (var key in items) {
-                        var cover = items[key]
-                        cover.position = cover.position == 0 ? 4 : cover.position - 1
-                    }
-                    coverArea.futureIndex = (coverArea.futureIndex + 1 ) % 5;
-                }
+                onNextTrackChanged: coverArea.updateNextTrack()
             }
 
             Component.onCompleted: {
-                current.title = musicLibrary.pretifyUrl(musicLibrary.currentTrack)
-                current.imageSource = musicLibrary.currentCover
-                next.title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
-                next.imageSource = musicLibrary.nextCover
+                setCoverDetails(2, musicLibrary.currentTrack, musicLibrary.currentCover)
+                setCoverDetails(3, musicLibrary.nextTrack, musicLibrary.nextCover)
             }
         }
 
@@ -210,10 +205,7 @@ Page {
 
                     IconButton {
                         icon.source: !app.playing ? "image://Theme/icon-m-play" : "image://Theme/icon-m-pause"
-                        onClicked: {
-                            if (app.playing) player.pause()
-                            else player.play()
-                        }
+                        onClicked: app.togglePlay()
                     }
                     IconButton {
                         icon.source: "image://Theme/icon-m-next"

@@ -45,10 +45,7 @@ CoverBackground {
 
         CoverAction {
             iconSource: !app.playing ? "image://Theme/icon-cover-play" : "image://Theme/icon-cover-pause"
-            onTriggered: {
-                if (app.playing) player.pause()
-                else player.play()
-            }
+            onTriggered: app.togglePlay()
         }
 
         CoverAction {

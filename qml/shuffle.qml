@@ -30,6 +30,11 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     property bool playing: player.playbackState == MediaPlayer.PlayingState
 
+    function togglePlay() {
+        if (app.playing) player.pause()
+        else player.play()
+    }
+
     MusicLibrary {
         id: musicLibrary
 
