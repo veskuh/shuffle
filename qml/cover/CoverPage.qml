@@ -21,23 +21,47 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        x: Theme.paddingLarge
-        anchors.bottom: song.top
-        width: parent.width - Theme.paddingLarge * 2
-        color: Theme.secondaryHighlightColor
-        text: player.metaData.albumArtist ? player.metaData.albumArtist : ""
-        truncationMode: TruncationMode.Fade
+    Image {
+        id: coverImage
+        width: parent.width
+        height: width
+        source: musicLibrary.currentCover
+        fillMode: Image.PreserveAspectCrop
+    }
+
+    Rectangle {
+        width: parent.width
+        height: width
+        anchors.centerIn: parent
+
+        gradient: Gradient {
+              GradientStop { position: 0.0; color: "transparent" }
+              GradientStop { position: 0.7; color: "#BA000000" }
+              GradientStop { position: 1.0; color: "transparent" }
+        }
     }
 
     Label {
         id: song
-        anchors.centerIn: parent
+        anchors.bottom: artist.top
         width: parent.width - Theme.paddingLarge * 2
-        color: Theme.highlightColor
+        x: Theme.paddingLarge
+        color: Theme.primaryColor
         text: player.metaData.title ? player.metaData.title : musicLibrary.pretifyUrl(player.source)
         maximumLineCount: 3
         wrapMode: Text.Wrap
+        truncationMode: TruncationMode.Elide
+    }
+
+    Label {
+        id: artist
+        x: Theme.paddingLarge
+        anchors.top: coverImage.bottom
+        width: parent.width - Theme.paddingLarge * 2
+        color: Theme.secondaryColor
+        text: player.metaData.albumArtist ? player.metaData.albumArtist : ""
+        truncationMode: TruncationMode.Elide
+        font.pixelSize: Theme.fontSizeExtraSmall
     }
 
     CoverActionList {
