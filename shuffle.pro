@@ -17,7 +17,8 @@ OTHER_FILES += qml/shuffle.qml \
     rpm/shuffle.spec \
     rpm/shuffle.yaml \
     translations/*.ts \
-    shuffle.desktop
+    shuffle.desktop \
+    qml/pages/AboutPage.qml
 
 # to disable building translations every time, comment out the
 # following CONFIG line

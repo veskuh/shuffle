@@ -34,10 +34,10 @@ Page {
         }
 
         PullDownMenu {
-            /* TODO
             MenuItem {
                 text: "About"
-            }*/
+                onClicked: pageStack.push("AboutPage.qml")
+            }
             MenuItem {
                 text: app.playing? "Pause" : "Play"
                 onClicked: app.togglePlay()
