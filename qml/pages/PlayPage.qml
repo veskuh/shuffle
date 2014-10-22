@@ -55,25 +55,6 @@ Page {
             width: parent.width
             height: page.height/3
 
-            // The next track info to be stored in this item
-            property int futureIndex: 4
-
-            function setCoverDetails(coverIndex, url, coverImage) {
-                var items = [cover1, cover2, cover3, cover4, cover5]
-                items[coverIndex].title = musicLibrary.pretifyUrl(url)
-                items[coverIndex].imageSource = coverImage
-            }
-
-            function updateNextTrack() {
-                var items = [cover1, cover2, cover3, cover4, cover5]
-                setCoverDetails(coverArea.futureIndex, musicLibrary.nextTrack, musicLibrary.nextCover)
-                for (var key in items) {
-                    var cover = items[key]
-                    cover.position = cover.position == 0 ? 4 : cover.position - 1
-                }
-                coverArea.futureIndex = (coverArea.futureIndex + 1 ) % 5;
-            }
-
             SongCover {
                 id: cover1
                 position : 0
@@ -97,16 +78,6 @@ Page {
             SongCover {
                 id: cover5
                 position : 4
-            }
-
-            Connections {
-                target: musicLibrary
-                onNextTrackChanged: coverArea.updateNextTrack()
-            }
-
-            Component.onCompleted: {
-                setCoverDetails(2, musicLibrary.currentTrack, musicLibrary.currentCover)
-                setCoverDetails(3, musicLibrary.nextTrack, musicLibrary.nextCover)
             }
         }
 

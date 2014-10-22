@@ -69,6 +69,28 @@ Item {
             duration: 1000; easing.type: Easing.InOutCubic
         }
     }
+
+    Connections {
+        target: musicLibrary
+        onNextTrackChanged: cover.position = cover.position == 0 ? 4 : cover.position - 1
+    }
+
+    Component.onCompleted: {
+        if (position == 2) {
+            title = musicLibrary.pretifyUrl(musicLibrary.currentTrack)
+            imageSource = musicLibrary.currentCover
+        } else if (position == 3) {
+            title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
+            imageSource = musicLibrary.nextCover
+        }
+    }
+
+   onPositionChanged: {
+        if (cover.position == 3) {
+            title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
+            imageSource = musicLibrary.nextCover
+        }
+    }
 }
 
 
