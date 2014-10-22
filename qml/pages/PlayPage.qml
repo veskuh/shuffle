@@ -55,30 +55,11 @@ Page {
             width: parent.width
             height: page.height/3
 
-            SongCover {
-                id: cover1
-                position : 0
-            }
-
-            SongCover {
-                id: cover2
-                position : 1
-            }
-
-            SongCover {
-                id: cover3
-                position : 2
-            }
-
-            SongCover {
-                id: cover4
-                position : 3
-            }
-
-            SongCover {
-                id: cover5
-                position : 4
-            }
+            SongCover { position : 0 }
+            SongCover { position : 1 }
+            SongCover { position : 2 }
+            SongCover { position : 3 }
+            SongCover { position : 4 }
         }
 
         ShaderEffect {
@@ -125,7 +106,6 @@ Page {
                 anchors.leftMargin: Theme.paddingMedium
 
                 Label {
-                    id: artist
                     text: player.metaData.albumArtist ? player.metaData.albumArtist : ""
                     color:  Theme.secondaryColor
                     width: page.width - 2 * Theme.paddingMedium
@@ -133,7 +113,6 @@ Page {
                 }
 
                 Label {
-                    id: song
                     text: player.metaData.title ? player.metaData.title : musicLibrary.pretifyUrl(player.source)
                     font.pixelSize: Theme.fontSizeLarge
                     width: page.width - 2 * Theme.paddingMedium
@@ -141,7 +120,6 @@ Page {
                 }
 
                 Label {
-                    id: album
                     text: player.metaData.albumTitle ? player.metaData.albumTitle : ""
                     color: Theme.secondaryColor
                     width: page.width - 2 * Theme.paddingMedium
@@ -187,6 +165,3 @@ Page {
         }
     }
 }
-
-
-
