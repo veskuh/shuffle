@@ -64,7 +64,7 @@ Item {
     }
 
     Behavior on x {
-        enabled: position != 4
+        enabled: position != 0
         NumberAnimation {
             duration: 1000; easing.type: Easing.InOutCubic
         }
