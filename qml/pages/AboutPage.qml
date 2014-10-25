@@ -56,7 +56,7 @@ Page {
         Label {
             width: page.width - 2 * Theme.paddingMedium
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Vesa-Matti Hartikainen<br>email: vesku.h@gmail.com><br>Twitter: @veskuh"
+            text: "Vesa-Matti Hartikainen<br>Email: vesku.h@gmail.com<br>Twitter: @veskuh"
             wrapMode: Text.WordWrap
             color: Theme.highlightColor
         }

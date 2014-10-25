@@ -30,6 +30,7 @@ class MusicLibrary : public QObject
 
     Q_PROPERTY(QString currentSong READ currentSong NOTIFY currentSongChanged)
     Q_PROPERTY(QString cover READ cover NOTIFY coverChanged)
+    Q_PROPERTY(QString title READ title NOTIFY titleChanged)
 
 public:
     explicit MusicLibrary(QObject *parent = 0);
@@ -39,10 +40,13 @@ public:
 
     QString currentSong();
     QString cover();
+    QString title();
 
 signals:
     void currentSongChanged();
     void coverChanged();
+    void titleChanged();
+
 
 public slots:
 
@@ -50,8 +54,12 @@ private:
     QSharedPointer<QSparqlConnection> connection;
     QString m_cover;
     QString m_url;
+    QString m_title;
     QString m_artist;
     QString m_album;
+    int m_count;
+    QSparqlQueryOptions m_execOptions;
+
 };
 
 #endif // MUSICLIBRARY_H

@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-import QtQuick 2.0
+import QtQuick 2.1
 import Sailfish.Silica 1.0
 
 Item {
@@ -28,11 +28,10 @@ Item {
     property string imageSource
     property int position
 
-    scale: position != 2 ? 0.5 : 1.0
-    x: -width + position * (parent.width - 3 * width) / 4 + position * width
     y: Theme.paddingLarge
     width: parent.width / 2 - Theme.paddingMedium * 2
     height: width
+    scale: 0.5
 
     Image {
         id:image
@@ -59,17 +58,6 @@ Item {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    Behavior on scale {
-        NumberAnimation { duration: 1000 }
-    }
-
-    Behavior on x {
-        enabled: position != 0
-        NumberAnimation {
-            duration: 1000; easing.type: Easing.InOutCubic
-        }
-    }
-
     Connections {
         target: musicLibrary
         onNextTrackChanged: cover.position = cover.position == 0 ? 4 : cover.position - 1
@@ -77,23 +65,62 @@ Item {
 
     Component.onCompleted: {
         if (position == 2) {
-            title = musicLibrary.pretifyUrl(musicLibrary.currentTrack)
+            title = musicLibrary.currentTitle
             imageSource = musicLibrary.currentCover
         } else if (position == 3) {
-            title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
+            title = musicLibrary.nextTitle
             imageSource = musicLibrary.nextCover
         }
     }
 
-   onPositionChanged: {
-        if (cover.position == 3) {
-            title = musicLibrary.pretifyUrl(musicLibrary.nextTrack)
-            imageSource = musicLibrary.nextCover
+    states: [
+        State { name: "one"; when: position == 0
+            PropertyChanges {
+                target: cover; x: -width; opacity: 0.0
+            }
+        },
+        State { name: "two"; when: position == 1
+            PropertyChanges {
+                target: cover; x: (parent.width - 3 * width) / 4; scale: 0.5
+            }
+        },
+        State { name: "three"; when: position == 2
+            PropertyChanges {
+                target: cover; x: 2 * (parent.width - 3 * width) / 4 + width; scale: 1.0
+            }
+        },
+        State { name: "four"; when: position == 3
+            PropertyChanges {
+                target: cover;
+                x: 3 * (parent.width - 3 * width) / 4 + 2 * width; opacity: 1.0
+            }
+        },
+        State { name: "five"; when: position == 4
+            PropertyChanges {
+                target: cover; x: 4 * (parent.width - 3 * width) / 4 + 3 * width
+            }
         }
-    }
+    ]
+
+    transitions: [
+        Transition {
+            from: "two,three,four"
+            PropertyAnimation { target: cover; properties: "x,scale,opacity"; duration: 1000; easing.type: Easing.InOutCubic }
+        },
+        Transition {
+            to: "four"
+            SequentialAnimation {
+                ScriptAction {
+                    script: {
+                        title = musicLibrary.nextTitle
+                        imageSource = musicLibrary.nextCover
+                    }
+                }
+                PropertyAnimation { target: cover; properties: "x,scale,opacity"; duration: 1000; easing.type: Easing.InOutCubic }
+            }
+        }
+    ]
 }
-
-
 
 
 

@@ -113,7 +113,7 @@ Page {
                 }
 
                 Label {
-                    text: player.metaData.title ? player.metaData.title : musicLibrary.pretifyUrl(player.source)
+                    text: player.metaData.title ? player.metaData.title : musicLibrary.currentTitle
                     font.pixelSize: Theme.fontSizeLarge
                     width: page.width - 2 * Theme.paddingMedium
                     truncationMode: TruncationMode.Fade

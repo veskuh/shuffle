@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-import QtQuick 2.0
+import QtQuick 2.1
 import Sailfish.Silica 1.0
 
 CoverBackground {
@@ -56,7 +56,7 @@ CoverBackground {
         width: parent.width - Theme.paddingLarge * 2
         x: Theme.paddingLarge
         color: Theme.primaryColor
-        text: player.metaData.title ? player.metaData.title : musicLibrary.pretifyUrl(player.source)
+        text: player.metaData.title ? player.metaData.title : musicLibrary.currentTitle
         maximumLineCount: 3
         wrapMode: Text.Wrap
         truncationMode: TruncationMode.Elide

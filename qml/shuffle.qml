@@ -40,21 +40,22 @@ ApplicationWindow
 
         property string currentTrack
         property string currentCover
+        property string currentTitle
         property string nextTrack
         property string nextCover
+        property string nextTitle
 
         onCurrentSongChanged: {
-            if (nextTrack == "") {
-                player.jumpToNext = false
-                nextCover = cover
-                nextTrack = currentSong
-            } else {
-                player.jumpToNext = false
+            player.jumpToNext = false
+            if (nextTrack != "") {
                 currentTrack = nextTrack
                 currentCover = nextCover
-                nextCover = cover
-                nextTrack = currentSong
+                currentTitle = nextTitle
             }
+            nextCover = musicLibrary.cover
+            nextTitle = title
+            // Update track last so that all properties are correct
+            nextTrack = currentSong
         }
 
         onCurrentTrackChanged: {
@@ -62,8 +63,8 @@ ApplicationWindow
         }
 
         Component.onCompleted: {
-            next()
-            next()
+            next() // Load first track's info
+            next() // load next track's info
         }
     }
 
